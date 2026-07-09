@@ -307,10 +307,6 @@
     var vh = window.innerHeight;
     var isMobile = vw < 760;
 
-    var boxW = isMobile ? vw - 40 : Math.max(300, vw * 0.46 - 60);
-    var boxH = isMobile ? Math.max(220, vh * 0.44) : vh - 190;
-    var scale = Math.max(0.42, Math.min(1, boxW / 500, boxH / 540));
-
     var headerPad = isMobile ? '14px 20px' : '20px 44px';
     var iconSize = isMobile ? '36px' : '42px';
     var mainPad = isMobile ? '0 20px' : '0 44px';
@@ -343,6 +339,21 @@
 
     document.getElementById('privacy-body').style.padding = privacyBodyPad;
     document.getElementById('privacy-body').style.maxWidth = '880px';
+
+    // Scene box: the design spec's vh-based estimate assumes a rough split
+    // between the copy column and scene. On mobile (stacked rows), the copy
+    // column's real height varies with how many chips wrap, so measure what's
+    // actually left over and never let the scene claim more than that —
+    // otherwise it overflows upward over the copy column.
+    var boxW = isMobile ? vw - 40 : Math.max(300, vw * 0.46 - 60);
+    var estimatedBoxH = isMobile ? Math.max(220, vh * 0.44) : vh - 190;
+    var boxH = estimatedBoxH;
+    if (isMobile) {
+      var mainGapPx = parseFloat(mainGap) || 0;
+      var availableForScene = main.clientHeight - left.offsetHeight - mainGapPx;
+      boxH = Math.min(estimatedBoxH, Math.max(140, availableForScene));
+    }
+    var scale = Math.max(0.42, Math.min(1, boxW / 500, boxH / 540));
 
     document.getElementById('scene-outer').style.width = Math.round(500 * scale) + 'px';
     document.getElementById('scene-outer').style.height = Math.round(540 * scale) + 'px';
