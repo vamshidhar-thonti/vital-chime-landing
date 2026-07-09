@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700;800&family=Instrument+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #FFF6EC; }
+  html, body { margin: 0; padding: 0; background: #FFF6EC; }
+  html.is-desktop, html.is-desktop body { height: 100%; overflow: hidden; }
   * { box-sizing: border-box; }
   body { font-family: 'Instrument Sans', sans-serif; color: #2B1B12; }
   ::-webkit-scrollbar { width: 8px; }
@@ -38,10 +39,14 @@
   }
 
   .pill-btn { cursor: pointer; }
-  #privacy-btn { background: transparent; border: 1.5px solid #F0E4CF; color: #2B1B12; font-weight: 800; font-size: 13px; padding: 9px 18px; border-radius: 999px; text-decoration: none; display: inline-block; }
-  #privacy-btn:hover { background: #F9E9D2; border-color: #F2A93B; }
-  #back-btn { background: #2B1B12; color: #FFF6EC; border: none; font-weight: 800; font-size: 14px; padding: 11px 22px; border-radius: 999px; }
-  #back-btn:hover { filter: brightness(1.4); }
+  #privacy-btn, #m-privacy-btn { background: transparent; border: 1.5px solid #F0E4CF; color: #2B1B12; font-weight: 800; text-decoration: none; display: inline-block; }
+  #privacy-btn:hover, #m-privacy-btn:hover { background: #F9E9D2; border-color: #F2A93B; }
+  #back-btn, #m-back-btn { background: #2B1B12; color: #FFF6EC; border: none; font-weight: 800; border-radius: 999px; }
+  #back-btn:hover, #m-back-btn:hover { filter: brightness(1.4); }
+  #privacy-btn { font-size: 13px; padding: 9px 18px; border-radius: 999px; }
+  #back-btn { font-size: 14px; padding: 11px 22px; }
+  #m-privacy-btn { font-size: 12px; padding: 8px 14px; border-radius: 999px; flex-shrink: 0; }
+  #m-back-btn { font-size: 12px; padding: 8px 14px; flex-shrink: 0; }
 
   .play-badge { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 9px 18px; border-radius: 10px; }
   .play-badge.live { background: #000; color: #fff; box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
@@ -50,13 +55,19 @@
   .play-badge.disabled svg { filter: grayscale(1); opacity: 0.65; }
   .play-badge .label-top { font-size: 9.5px; font-weight: 600; letter-spacing: 0.4px; }
   .play-badge .label-bottom { font-size: 16px; font-weight: 700; font-family: 'Instrument Sans', sans-serif; margin-top: 1px; }
+  .play-badge.mobile { width: 100%; justify-content: center; padding: 14px 18px; border-radius: 12px; }
 
-  footer a { color: #A8721B; text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  footer a, .m-footer a { color: #A8721B; text-decoration: none; }
+  footer a:hover, .m-footer a:hover { text-decoration: underline; }
+
+  .feature-row { display: flex; align-items: center; gap: 10px; padding: 11px 14px; font-size: 13px; font-weight: 700; color: #2B1B12; line-height: 1.3; border-top: 1px solid rgba(43,27,18,0.08); }
+  .feature-row:first-child { border-top: none; }
+  .feature-check { width: 18px; height: 18px; border-radius: 50%; background: #E4572E; color: #FFF6EC; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
+<!-- DESKTOP / TABLET HOME (non-scrolling) -->
 <div id="home-view" style="height:100vh; display:flex; flex-direction:column; overflow:hidden;">
 
   <!-- Header -->
@@ -93,50 +104,7 @@
     <!-- Alarm scene -->
     <div id="scene-wrap" style="display:flex; align-items:center; justify-content:center; min-height:0;">
       <div id="scene-outer" style="position:relative;">
-        <div id="scene-inner" style="width:500px; height:540px; position:absolute; top:0; left:0; transform-origin:top left;">
-
-          <!-- soft marigold blob -->
-          <div style="position:absolute; left:20px; top:8px; width:460px; height:460px; border-radius:50%; background:rgba(242,169,59,0.13);"></div>
-
-          <!-- pulsing rings -->
-          <div style="position:absolute; left:120px; top:108px; width:260px; height:260px; border-radius:50%; border:2px solid rgba(228,87,46,0.55); animation:vcring 3s ease-out infinite;"></div>
-          <div style="position:absolute; left:80px; top:68px; width:340px; height:340px; border-radius:50%; border:2px solid rgba(228,87,46,0.4); animation:vcring 3s ease-out 1s infinite;"></div>
-          <div style="position:absolute; left:40px; top:28px; width:420px; height:420px; border-radius:50%; border:2px solid rgba(228,87,46,0.28); animation:vcring 3s ease-out 2s infinite;"></div>
-          <div style="position:absolute; left:100px; top:88px; width:300px; height:300px; border-radius:50%; border:2px dashed rgba(242,169,59,0.55);"></div>
-
-          <!-- center alarm stack -->
-          <div style="position:absolute; left:0; top:0; width:500px; height:476px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; z-index:2;">
-            <div style="font-size:11px; font-weight:800; letter-spacing:2.2px; color:#A8721B;">10:00 PM · TIME FOR</div>
-            <div style="width:104px; height:104px; border-radius:30px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:50px; box-shadow:0 16px 32px rgba(43,27,18,0.14); animation:vcbell 2.6s ease-in-out infinite;">💉</div>
-            <div style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:27px; letter-spacing:-0.5px;">Insulin Glargine</div>
-            <div style="font-size:13.5px; font-weight:600; color:#8A7B6C; margin-top:-8px;">1 injection · before bed</div>
-            <div style="background:#E4572E; color:#FFF6EC; font-weight:800; font-size:14px; padding:12px 30px; border-radius:999px; box-shadow:0 12px 26px rgba(228,87,46,0.4); margin-top:4px;">✓&nbsp; Take now</div>
-          </div>
-
-          <!-- floating dose card: taken -->
-          <div style="--rot:-5deg; position:absolute; left:0px; top:44px; z-index:3; display:flex; align-items:center; gap:10px; background:#FFFBF3; border:1px solid #F0E4CF; border-radius:16px; padding:10px 14px; box-shadow:0 12px 26px rgba(43,27,18,0.12); animation:vcfloat 5s ease-in-out infinite;">
-            <div style="width:36px; height:36px; border-radius:11px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:17px;">💊</div>
-            <div>
-              <div style="font-size:13px; font-weight:800;">Metformin 500 mg</div>
-              <div style="font-size:11px; font-weight:600; color:#8A7B6C;">8:00 AM</div>
-            </div>
-            <div style="background:#E8F3E2; color:#3E7C2E; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; margin-left:6px;">✓ Taken</div>
-          </div>
-
-          <!-- floating dose card: upcoming -->
-          <div style="--rot:4deg; position:absolute; right:0px; bottom:26px; z-index:3; display:flex; align-items:center; gap:10px; background:#FFFBF3; border:1px solid #F0E4CF; border-radius:16px; padding:10px 14px; box-shadow:0 12px 26px rgba(43,27,18,0.12); animation:vcfloat 6s ease-in-out 0.8s infinite;">
-            <div style="width:36px; height:36px; border-radius:11px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:17px;">🥄</div>
-            <div>
-              <div style="font-size:13px; font-weight:800;">Cough syrup</div>
-              <div style="font-size:11px; font-weight:600; color:#8A7B6C;">2:00 PM</div>
-            </div>
-            <div style="background:rgba(38,96,164,0.10); color:#2660A4; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; margin-left:6px;">Upcoming</div>
-          </div>
-
-          <!-- floating streak chip -->
-          <div style="--rot:6deg; position:absolute; right:14px; top:20px; z-index:3; background:#2B1B12; color:#FFF6EC; font-size:12px; font-weight:800; padding:9px 16px; border-radius:999px; box-shadow:0 12px 26px rgba(43,27,18,0.2); animation:vcfloat 5.5s ease-in-out 1.6s infinite;">🔥 12-day streak</div>
-
-        </div>
+        <div id="scene-inner" class="scene-canvas" style="width:500px; height:540px; position:absolute; top:0; left:0; transform-origin:top left;"></div>
       </div>
     </div>
   </div>
@@ -152,6 +120,62 @@
     </div>
     <div id="footer-right">Your health data never leaves your phone.</div>
   </footer>
+</div>
+
+<!-- MOBILE HOME (dedicated, normally scrolling page) -->
+<div id="m-home-view" style="display:none; flex-direction:column; gap:26px; padding:18px 20px 36px; min-height:100vh;">
+
+  <!-- Header -->
+  <div style="display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img src="assets/ic_launcher.png" alt="Vital Chime app icon" style="width:36px; height:36px; border-radius:10px; display:block;">
+      <span style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:18px; letter-spacing:-0.3px;">Vital Chime</span>
+    </div>
+    <a id="m-privacy-btn" class="pill-btn" href="#privacy">Privacy</a>
+  </div>
+
+  <!-- Hero copy -->
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div style="font-size:10.5px; font-weight:800; letter-spacing:1.4px; color:#A8721B;">FREE MEDICINE REMINDER · MADE FOR INDIAN FAMILIES</div>
+    <h1 style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; letter-spacing:-1px; line-height:1.08; margin:0; font-size:30px;">
+      Never miss a dose <span style="color:#E4572E;">again</span>.
+    </h1>
+    <p style="font-size:13.5px; line-height:1.55; color:#8A7B6C; margin:0; font-weight:600;">
+      Full-screen alarms that ring through silent mode and Do Not Disturb — loud enough to wake you, kind enough for your grandparents. Your health data never leaves your phone.
+    </p>
+  </div>
+
+  <!-- Alarm scene card -->
+  <div style="background:#E4572E; border-radius:24px; padding:16px; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:0 20px 40px rgba(228,87,46,0.25);">
+    <div id="m-scene-outer" style="position:relative;">
+      <div id="m-scene-inner" class="scene-canvas" style="width:500px; height:540px; position:absolute; top:0; left:0; transform-origin:top left;"></div>
+    </div>
+  </div>
+
+  <!-- What you get -->
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div style="font-size:10.5px; font-weight:800; letter-spacing:1.4px; color:#A8721B;">WHAT YOU GET</div>
+    <div id="feature-rows" style="display:flex; flex-direction:column; background:#F9E9D2; border-radius:16px; overflow:hidden;"></div>
+  </div>
+
+  <!-- Available in -->
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div style="font-size:10.5px; font-weight:800; letter-spacing:1.4px; color:#A8721B;">AVAILABLE IN</div>
+    <div id="m-language-chips" style="display:flex; flex-wrap:wrap; gap:7px;"></div>
+  </div>
+
+  <!-- Play badge -->
+  <div id="m-play-badge-wrap"></div>
+
+  <!-- Footer -->
+  <div class="m-footer" style="display:flex; flex-direction:column; gap:4px; font-size:11px; font-weight:600; color:#B8A48D; padding-top:6px; border-top:1px solid #F0E4CF;">
+    <div>© 2026 <span id="developer-name-3"></span></div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a id="mailto-3" href="#">t.vamshidhar333@gmail.com</a>
+      <span>·</span>
+      <a href="#privacy">Privacy Policy</a>
+    </div>
+  </div>
 </div>
 
 <!-- PRIVACY VIEW -->
@@ -238,13 +262,57 @@
     '<path d="M330 130 L410 175 C427 185 427 260 410 265 L330 350 L245 240 Z" fill="#FFC542"/>' +
     '</svg>';
 
+  // The alarm-scene canvas markup is identical on desktop (cream label/pill) and
+  // mobile card (translucent label, dark "Take now" pill against the orange card bg).
+  function sceneHTML(onCard) {
+    var timeColor = onCard ? 'rgba(255,246,236,0.8)' : '#A8721B';
+    var subColor = onCard ? 'rgba(43,27,18,0.68)' : '#8A7B6C';
+    var subWeight = onCard ? '700' : '600';
+    var pillBg = onCard ? '#2B1B12' : '#E4572E';
+    var pillFont = onCard ? '17px' : '14px';
+    var pillPad = onCard ? '16px 38px' : '12px 30px';
+    var pillShadow = onCard ? '0 14px 30px rgba(43,27,18,0.35)' : '0 12px 26px rgba(228,87,46,0.4)';
+    var pillMarginTop = onCard ? '6px' : '4px';
+    return (
+      '<div style="position:absolute; left:20px; top:8px; width:460px; height:460px; border-radius:50%; background:rgba(242,169,59,0.13);"></div>' +
+      '<div style="position:absolute; left:120px; top:108px; width:260px; height:260px; border-radius:50%; border:2px solid rgba(228,87,46,0.55); animation:vcring 3s ease-out infinite;"></div>' +
+      '<div style="position:absolute; left:80px; top:68px; width:340px; height:340px; border-radius:50%; border:2px solid rgba(228,87,46,0.4); animation:vcring 3s ease-out 1s infinite;"></div>' +
+      '<div style="position:absolute; left:40px; top:28px; width:420px; height:420px; border-radius:50%; border:2px solid rgba(228,87,46,0.28); animation:vcring 3s ease-out 2s infinite;"></div>' +
+      '<div style="position:absolute; left:100px; top:88px; width:300px; height:300px; border-radius:50%; border:2px dashed rgba(242,169,59,0.55);"></div>' +
+      '<div style="position:absolute; left:0; top:0; width:500px; height:476px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; z-index:2;">' +
+        '<div style="font-size:11px; font-weight:800; letter-spacing:2.2px; color:' + timeColor + ';">10:00 PM · TIME FOR</div>' +
+        '<div style="width:104px; height:104px; border-radius:30px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:50px; box-shadow:0 16px 32px rgba(43,27,18,0.14); animation:vcbell 2.6s ease-in-out infinite;">💉</div>' +
+        '<div style="font-family:\'Bricolage Grotesque\', sans-serif; font-weight:800; font-size:27px; letter-spacing:-0.5px; color:#2B1B12;">Insulin Glargine</div>' +
+        '<div style="font-size:13.5px; font-weight:' + subWeight + '; color:' + subColor + '; margin-top:-8px;">1 injection · before bed</div>' +
+        '<div style="background:' + pillBg + '; color:#FFF6EC; font-weight:800; font-size:' + pillFont + '; padding:' + pillPad + '; border-radius:999px; box-shadow:' + pillShadow + '; margin-top:' + pillMarginTop + ';">✓&nbsp; Take now</div>' +
+      '</div>' +
+      '<div style="--rot:-5deg; position:absolute; left:0px; top:44px; z-index:3; display:flex; align-items:center; gap:10px; background:#FFFBF3; border:1px solid #F0E4CF; border-radius:16px; padding:10px 14px; box-shadow:0 12px 26px rgba(43,27,18,0.12); animation:vcfloat 5s ease-in-out infinite;">' +
+        '<div style="width:36px; height:36px; border-radius:11px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:17px;">💊</div>' +
+        '<div><div style="font-size:13px; font-weight:800;">Metformin 500 mg</div><div style="font-size:11px; font-weight:600; color:#8A7B6C;">8:00 AM</div></div>' +
+        '<div style="background:#E8F3E2; color:#3E7C2E; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; margin-left:6px;">✓ Taken</div>' +
+      '</div>' +
+      '<div style="--rot:4deg; position:absolute; right:0px; bottom:26px; z-index:3; display:flex; align-items:center; gap:10px; background:#FFFBF3; border:1px solid #F0E4CF; border-radius:16px; padding:10px 14px; box-shadow:0 12px 26px rgba(43,27,18,0.12); animation:vcfloat 6s ease-in-out 0.8s infinite;">' +
+        '<div style="width:36px; height:36px; border-radius:11px; background:#F9E9D2; display:flex; align-items:center; justify-content:center; font-size:17px;">🥄</div>' +
+        '<div><div style="font-size:13px; font-weight:800;">Cough syrup</div><div style="font-size:11px; font-weight:600; color:#8A7B6C;">2:00 PM</div></div>' +
+        '<div style="background:rgba(38,96,164,0.10); color:#2660A4; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; margin-left:6px;">Upcoming</div>' +
+      '</div>' +
+      '<div style="--rot:6deg; position:absolute; right:14px; top:20px; z-index:3; background:#2B1B12; color:#FFF6EC; font-size:12px; font-weight:800; padding:9px 16px; border-radius:999px; box-shadow:0 12px 26px rgba(43,27,18,0.2); animation:vcfloat 5.5s ease-in-out 1.6s infinite;">🔥 12-day streak</div>'
+    );
+  }
+
+  document.getElementById('scene-inner').innerHTML = sceneHTML(false);
+  document.getElementById('m-scene-inner').innerHTML = sceneHTML(true);
+
   // ---- Static content fill ----
-  document.getElementById('mailto-1').href = 'mailto:' + contactEmail;
-  document.getElementById('mailto-1').textContent = contactEmail;
+  [1, 3].forEach(function (n) {
+    var el = document.getElementById('mailto-' + n);
+    if (el) { el.href = 'mailto:' + contactEmail; el.textContent = contactEmail; }
+  });
   document.getElementById('mailto-2').href = 'mailto:' + contactEmail;
   document.getElementById('mailto-2').textContent = contactEmail;
   document.getElementById('developer-name-1').textContent = developerName;
   document.getElementById('developer-name-2').textContent = developerName;
+  document.getElementById('developer-name-3').textContent = developerName;
 
   var featureChipsEl = document.getElementById('feature-chips');
   features.forEach(function (f) {
@@ -254,37 +322,51 @@
     featureChipsEl.appendChild(chip);
   });
 
-  var langChipsEl = document.getElementById('language-chips');
-  var visibleLanguages = languages.slice(0, maxVisibleLanguages);
-  visibleLanguages.forEach(function (lang) {
-    var chip = document.createElement('div');
-    chip.style.cssText = 'background:#2B1B12; color:#FFF6EC; border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700;';
-    chip.textContent = lang;
-    langChipsEl.appendChild(chip);
+  var featureRowsEl = document.getElementById('feature-rows');
+  features.forEach(function (f) {
+    var row = document.createElement('div');
+    row.className = 'feature-row';
+    row.innerHTML = '<span class="feature-check">✓</span><span></span>';
+    row.querySelector('span:last-child').textContent = f;
+    featureRowsEl.appendChild(row);
   });
-  if (languages.length > maxVisibleLanguages) {
-    var more = document.createElement('div');
-    more.style.cssText = 'background:#F9E9D2; color:#A8721B; border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700;';
-    more.textContent = '+' + (languages.length - maxVisibleLanguages) + ' more';
-    langChipsEl.appendChild(more);
-  }
 
-  var playWrap = document.getElementById('play-badge-wrap');
-  if (playStoreLink) {
-    var a = document.createElement('a');
-    a.href = playStoreLink;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.className = 'play-badge live';
-    a.innerHTML = PLAY_SVG + '<div style="line-height:1.15;"><div class="label-top">GET IT ON</div><div class="label-bottom">Google Play</div></div>';
-    playWrap.appendChild(a);
-  } else {
+  function fillLanguageChips(container) {
+    var visibleLanguages = languages.slice(0, maxVisibleLanguages);
+    visibleLanguages.forEach(function (lang) {
+      var chip = document.createElement('div');
+      chip.style.cssText = 'background:#2B1B12; color:#FFF6EC; border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700;';
+      chip.textContent = lang;
+      container.appendChild(chip);
+    });
+    if (languages.length > maxVisibleLanguages) {
+      var more = document.createElement('div');
+      more.style.cssText = 'background:#F9E9D2; color:#A8721B; border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700;';
+      more.textContent = '+' + (languages.length - maxVisibleLanguages) + ' more';
+      container.appendChild(more);
+    }
+  }
+  fillLanguageChips(document.getElementById('language-chips'));
+  fillLanguageChips(document.getElementById('m-language-chips'));
+
+  function buildPlayBadge(mobile) {
+    if (playStoreLink) {
+      var a = document.createElement('a');
+      a.href = playStoreLink;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'play-badge live' + (mobile ? ' mobile' : '');
+      a.innerHTML = PLAY_SVG + '<div style="line-height:1.15;"><div class="label-top">GET IT ON</div><div class="label-bottom">Google Play</div></div>';
+      return a;
+    }
     var d = document.createElement('div');
-    d.className = 'play-badge disabled';
+    d.className = 'play-badge disabled' + (mobile ? ' mobile' : '');
     d.title = 'Coming soon';
     d.innerHTML = PLAY_SVG + '<div style="line-height:1.15;"><div class="label-top">COMING SOON ON</div><div class="label-bottom">Google Play</div></div>';
-    playWrap.appendChild(d);
+    return d;
   }
+  document.getElementById('play-badge-wrap').appendChild(buildPlayBadge(false));
+  document.getElementById('m-play-badge-wrap').appendChild(buildPlayBadge(true));
 
   var policyEl = document.getElementById('policy-sections');
   policySections.forEach(function (sec) {
@@ -307,67 +389,67 @@
     var vh = window.innerHeight;
     var isMobile = vw < 760;
 
-    var headerPad = isMobile ? '14px 20px' : '20px 44px';
-    var iconSize = isMobile ? '36px' : '42px';
-    var mainPad = isMobile ? '0 20px' : '0 44px';
-    var mainGap = isMobile ? '4px' : '24px';
-    var leftGap = isMobile ? '10px' : '18px';
-    var h1Size = isMobile ? '32px' : (vh < 760 ? '44px' : '56px');
-    var bodySize = isMobile ? '13px' : '15px';
-    var footerPad = isMobile ? '10px 20px 14px' : '14px 44px 20px';
-    var privacyBodyPad = isMobile ? '20px 22px 32px' : '36px 64px 48px';
+    document.documentElement.classList.toggle('is-desktop', !isMobile);
 
-    document.getElementById('home-header').style.padding = headerPad;
-    document.getElementById('privacy-header').style.padding = headerPad;
-    document.getElementById('home-icon').style.width = document.getElementById('home-icon').style.height = iconSize;
-    document.getElementById('privacy-icon').style.width = document.getElementById('privacy-icon').style.height = iconSize;
+    if (!isMobile) {
+      var headerPad = '20px 44px';
+      var iconSize = '42px';
+      var mainPad = '0 44px';
+      var mainGap = '24px';
+      var leftGap = '18px';
+      var h1Size = vh < 760 ? '44px' : '56px';
+      var footerPad = '14px 44px 20px';
+      var privacyBodyPad = '36px 64px 48px';
 
-    var main = document.getElementById('home-main');
-    main.style.padding = mainPad;
-    main.style.gap = mainGap;
-    main.style.gridTemplateColumns = isMobile ? '1fr' : '1.05fr 0.95fr';
-    main.style.gridTemplateRows = isMobile ? 'auto 1fr' : '';
+      document.getElementById('home-header').style.padding = headerPad;
+      document.getElementById('privacy-header').style.padding = headerPad;
+      document.getElementById('home-icon').style.width = document.getElementById('home-icon').style.height = iconSize;
+      document.getElementById('privacy-icon').style.width = document.getElementById('privacy-icon').style.height = iconSize;
 
-    var left = document.getElementById('home-left');
-    left.style.gap = leftGap;
+      var main = document.getElementById('home-main');
+      main.style.padding = mainPad;
+      main.style.gap = mainGap;
+      main.style.gridTemplateColumns = '1.05fr 0.95fr';
+      main.style.gridTemplateRows = '';
 
-    document.getElementById('home-h1').style.fontSize = h1Size;
-    document.getElementById('home-body').style.fontSize = bodySize;
+      document.getElementById('home-left').style.gap = leftGap;
+      document.getElementById('home-h1').style.fontSize = h1Size;
+      document.getElementById('home-body').style.fontSize = '15px';
+      document.getElementById('home-footer').style.padding = footerPad;
+      document.getElementById('footer-right').style.display = 'block';
+      document.getElementById('privacy-body').style.padding = privacyBodyPad;
+      document.getElementById('privacy-body').style.maxWidth = '880px';
 
-    document.getElementById('home-footer').style.padding = footerPad;
-    document.getElementById('footer-right').style.display = isMobile ? 'none' : 'block';
+      var boxW = Math.max(300, vw * 0.46 - 60);
+      var boxH = vh - 190;
+      var scale = Math.max(0.42, Math.min(1, boxW / 500, boxH / 540));
+      document.getElementById('scene-outer').style.width = Math.round(500 * scale) + 'px';
+      document.getElementById('scene-outer').style.height = Math.round(540 * scale) + 'px';
+      document.getElementById('scene-inner').style.transform = 'scale(' + scale + ')';
+    } else {
+      document.getElementById('privacy-header').style.padding = '14px 20px';
+      document.getElementById('privacy-icon').style.width = document.getElementById('privacy-icon').style.height = '36px';
+      document.getElementById('privacy-body').style.padding = '20px 22px 32px';
+      document.getElementById('privacy-body').style.maxWidth = '880px';
 
-    document.getElementById('privacy-body').style.padding = privacyBodyPad;
-    document.getElementById('privacy-body').style.maxWidth = '880px';
-
-    // Scene box: the design spec's vh-based estimate assumes a rough split
-    // between the copy column and scene. On mobile (stacked rows), the copy
-    // column's real height varies with how many chips wrap, so measure what's
-    // actually left over and never let the scene claim more than that —
-    // otherwise it overflows upward over the copy column.
-    var boxW = isMobile ? vw - 40 : Math.max(300, vw * 0.46 - 60);
-    var estimatedBoxH = isMobile ? Math.max(220, vh * 0.44) : vh - 190;
-    var boxH = estimatedBoxH;
-    if (isMobile) {
-      var mainGapPx = parseFloat(mainGap) || 0;
-      var availableForScene = main.clientHeight - left.offsetHeight - mainGapPx;
-      boxH = Math.min(estimatedBoxH, Math.max(140, availableForScene));
+      var mCardW = Math.max(260, vw - 40 - 32);
+      var mScale = Math.max(0.4, Math.min(1, mCardW / 500));
+      document.getElementById('m-scene-outer').style.width = Math.round(500 * mScale) + 'px';
+      document.getElementById('m-scene-outer').style.height = Math.round(540 * mScale) + 'px';
+      document.getElementById('m-scene-inner').style.transform = 'scale(' + mScale + ')';
     }
-    var scale = Math.max(0.42, Math.min(1, boxW / 500, boxH / 540));
-
-    document.getElementById('scene-outer').style.width = Math.round(500 * scale) + 'px';
-    document.getElementById('scene-outer').style.height = Math.round(540 * scale) + 'px';
-    document.getElementById('scene-inner').style.transform = 'scale(' + scale + ')';
   }
 
   // ---- Hash routing ----
   function applyRoute() {
     var isPrivacy = window.location.hash === '#privacy';
-    document.getElementById('home-view').style.display = isPrivacy ? 'none' : 'flex';
+    var isMobile = window.innerWidth < 760;
+    document.getElementById('home-view').style.display = (!isPrivacy && !isMobile) ? 'flex' : 'none';
+    document.getElementById('m-home-view').style.display = (!isPrivacy && isMobile) ? 'flex' : 'none';
     document.getElementById('privacy-view').style.display = isPrivacy ? 'flex' : 'none';
   }
 
-  window.addEventListener('resize', applyLayout);
+  window.addEventListener('resize', function () { applyLayout(); applyRoute(); });
   window.addEventListener('hashchange', applyRoute);
 
   applyLayout();
