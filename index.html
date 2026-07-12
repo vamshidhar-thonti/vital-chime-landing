@@ -39,13 +39,9 @@
   }
 
   .pill-btn { cursor: pointer; }
-  #privacy-btn, #m-privacy-btn { background: transparent; border: 1.5px solid #F0E4CF; color: #2B1B12; font-weight: 800; text-decoration: none; display: inline-block; }
-  #privacy-btn:hover, #m-privacy-btn:hover { background: #F9E9D2; border-color: #F2A93B; }
   #back-btn, #m-back-btn { background: #2B1B12; color: #FFF6EC; border: none; font-weight: 800; border-radius: 999px; }
   #back-btn:hover, #m-back-btn:hover { filter: brightness(1.4); }
-  #privacy-btn { font-size: 13px; padding: 9px 18px; border-radius: 999px; }
   #back-btn { font-size: 14px; padding: 11px 22px; }
-  #m-privacy-btn { font-size: 12px; padding: 8px 14px; border-radius: 999px; flex-shrink: 0; }
   #m-back-btn { font-size: 12px; padding: 8px 14px; flex-shrink: 0; }
 
   .play-badge { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; padding: 9px 18px; border-radius: 10px; }
@@ -56,6 +52,12 @@
   .play-badge .label-top { font-size: 9.5px; font-weight: 600; letter-spacing: 0.4px; }
   .play-badge .label-bottom { font-size: 16px; font-weight: 700; font-family: 'Instrument Sans', sans-serif; margin-top: 1px; }
   .play-badge.mobile { width: 100%; justify-content: center; padding: 14px 18px; border-radius: 12px; }
+  .play-badge.compact { padding: 7px 13px; gap: 8px; border-radius: 999px; box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+  .play-badge.compact svg { width: 16px; height: 18px; }
+  .play-badge.compact .label-top { font-size: 8px; letter-spacing: 0.3px; }
+  .play-badge.compact .label-bottom { font-size: 13px; margin-top: 0; }
+  #header-play-badge, #m-header-play-badge { display: flex; align-items: center; }
+  #header-play-badge .play-badge, #m-header-play-badge .play-badge { flex-shrink: 0; }
 
   footer a, .m-footer a { color: #A8721B; text-decoration: none; }
   footer a:hover, .m-footer a:hover { text-decoration: underline; }
@@ -76,7 +78,7 @@
       <img id="home-icon" src="assets/ic_launcher.png" alt="Vital Chime app icon" style="border-radius:11px; display:block;">
       <span style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:20px; letter-spacing:-0.4px;">Vital Chime</span>
     </div>
-    <a id="privacy-btn" class="pill-btn" href="#privacy">Privacy Policy</a>
+    <div id="header-play-badge"></div>
   </div>
 
   <!-- Main -->
@@ -131,7 +133,7 @@
       <img src="assets/ic_launcher.png" alt="Vital Chime app icon" style="width:36px; height:36px; border-radius:10px; display:block;">
       <span style="font-family:'Bricolage Grotesque', sans-serif; font-weight:800; font-size:18px; letter-spacing:-0.3px;">Vital Chime</span>
     </div>
-    <a id="m-privacy-btn" class="pill-btn" href="#privacy">Privacy</a>
+    <div id="m-header-play-badge"></div>
   </div>
 
   <!-- Hero copy -->
@@ -349,22 +351,27 @@
   fillLanguageChips(document.getElementById('language-chips'));
   fillLanguageChips(document.getElementById('m-language-chips'));
 
-  function buildPlayBadge(mobile) {
+  function buildPlayBadge(mobile, compact) {
+    var sizeClass = mobile ? ' mobile' : '';
+    if (compact) sizeClass += ' compact';
     if (playStoreLink) {
       var a = document.createElement('a');
       a.href = playStoreLink;
       a.target = '_blank';
       a.rel = 'noopener';
-      a.className = 'play-badge live' + (mobile ? ' mobile' : '');
+      a.className = 'play-badge live' + sizeClass;
+      a.setAttribute('aria-label', 'Get Vital Chime on Google Play');
       a.innerHTML = PLAY_SVG + '<div style="line-height:1.15;"><div class="label-top">GET IT ON</div><div class="label-bottom">Google Play</div></div>';
       return a;
     }
     var d = document.createElement('div');
-    d.className = 'play-badge disabled' + (mobile ? ' mobile' : '');
+    d.className = 'play-badge disabled' + sizeClass;
     d.title = 'Coming soon';
     d.innerHTML = PLAY_SVG + '<div style="line-height:1.15;"><div class="label-top">COMING SOON ON</div><div class="label-bottom">Google Play</div></div>';
     return d;
   }
+  document.getElementById('header-play-badge').appendChild(buildPlayBadge(false, true));
+  document.getElementById('m-header-play-badge').appendChild(buildPlayBadge(true, true));
   document.getElementById('play-badge-wrap').appendChild(buildPlayBadge(false));
   document.getElementById('m-play-badge-wrap').appendChild(buildPlayBadge(true));
 
